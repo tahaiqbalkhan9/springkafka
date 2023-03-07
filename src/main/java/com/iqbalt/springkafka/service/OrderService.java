@@ -6,4 +6,6 @@ public interface OrderService {
 
 	void consume(OrderVo order);
 	
+	void sendUpdateToCustomer(OrderVo order);
+	
 }
