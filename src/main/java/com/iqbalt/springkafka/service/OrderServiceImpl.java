@@ -22,6 +22,9 @@ public class OrderServiceImpl implements OrderService {
 	@Value("${topic.target}")
     private String targetTopic;
 	
+	@Value("${topic.source}")
+	private String sourceTopic;
+	
     private final ObjectMapper objectMapper = new ObjectMapper();
     
 	@Autowired
@@ -52,5 +55,12 @@ public class OrderServiceImpl implements OrderService {
 		LOGGER.info("-> Now sending order to Target Topic {}", order.toString());
 		kafkaOrderTemplate.send(targetTopic, order);
 		
+	}
+
+	@Override
+	public OrderVo addOrderToQueue(OrderVo order) {
+		LOGGER.info("-> Now Adding order to Source Topic {}", order.toString());
+		kafkaOrderTemplate.send(sourceTopic, order);
+		return order;
 	}
 }
